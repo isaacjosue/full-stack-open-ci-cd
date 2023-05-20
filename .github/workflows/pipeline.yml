@@ -48,22 +48,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
           DEFAULT_BRANCH: master
-  # test:
-  #   runs-on: ubuntu-20.04
-  #   steps:
-  #     - name: test1
-  #       env:
-  #         AAA: ${{ toJson(github.event.commits.*.message) }}
-  #       run: echo "$AAA"
-  #     - name: test2
-  #       env:
-  #         AAA: ${{ join(toJson(github.event.commits.*.message)) }}
-  #       run: echo "$AAA"
-  #     - name: test3
-  #       env:
-  #         AAA: ${{ contains(join(toJson(github.event.commits.*.message)), '#skip') }}
-  #       run: echo "$AAA"
-  #     - name: test4
-  #       env:
-  #         AAA: ${{ !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
-  #       run: echo "$AAA"
