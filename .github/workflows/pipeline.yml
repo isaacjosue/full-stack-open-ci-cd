@@ -48,3 +48,4 @@ jobs:
           WITH_V: true
           DEFAULT_BUMP: patch
           DRY_RUN: true
+          DEFAULT_BRANCH: master
