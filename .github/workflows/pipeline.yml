@@ -30,39 +30,41 @@ jobs:
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
-      - name: Deploy to production
-        if: ${{ github.event_name == 'push' }}
-        uses: johnbeynon/render-deploy-action@v0.0.8
-        with:
-          service-id: ${{ secrets.RENDER_SERVICE_ID }}
-          api-key: ${{ secrets.RENDER_API_KEY }}
+      # - name: Deploy to production
+      #   # if: ${{ github.event_name == 'push' }} && ${{ !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
+      #   uses: johnbeynon/render-deploy-action@v0.0.8
+      #   with:
+      #     service-id: ${{ secrets.RENDER_SERVICE_ID }}
+      #     api-key: ${{ secrets.RENDER_API_KEY }}
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - name: Bump version and push tag
-        if: ${{ github.event_name == 'push' }}
-        uses: anothrNick/github-tag-action@1.65.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          DEFAULT_BUMP: patch
-          DRY_RUN: true
-          DEFAULT_BRANCH: master
-  a_test_job:
+      # - name: Bump version and push tag
+      #   # if: ${{ github.event_name == 'push' }} && ${{ !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
+      #   uses: anothrNick/github-tag-action@1.65.0
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     WITH_V: true
+      #     DEFAULT_BUMP: patch
+      #     DEFAULT_BRANCH: master
+  test:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-      - name: github context
+      - name: test1
         env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: commits
+          AAA: ${{ toJson(github.event.commits.*.message) }}
+        run: echo "$AAA"
+      - name: test2
         env:
-          COMMITS: ${{ toJson(github.event.commits) }}
-        run: echo "$COMMITS"
-      - name: commit messages
+          AAA: ${{ join(toJson(github.event.commits.*.message)) }}
+        run: echo "$AAA"
+      - name: test3
         env:
-          COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
-        run: echo "$COMMIT_MESSAGES"
+          AAA: ${{ contains(join(toJson(github.event.commits.*.message)), '#skip') }}
+        run: echo "$AAA"
+      - name: test4
+        env:
+          AAA: ${{ !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
+        run: echo "$AAA"
