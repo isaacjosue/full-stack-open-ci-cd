@@ -1,12 +1,8 @@
 name: Periodic jobs
 
-# on:
-#   schedule:
-#     - cron: '0,10 2 * * *'
 on:
-  push:
-    branches:
-      - master
+  schedule:
+    - cron: '20 2 * * *'
 
 jobs:
   health_check:
