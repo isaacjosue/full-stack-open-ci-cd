@@ -38,7 +38,7 @@ jobs:
           api-key: ${{ secrets.RENDER_API_KEY }}
       - name: Discord Webhook Notify Info
         uses: rjstone/discord-webhook-notify@v1.0.4
-        if: success()
+        if: ${{ github.event_name == 'push' && success() }}
         with:
             severity: info
             text: A new version has deployed
