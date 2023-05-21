@@ -42,7 +42,7 @@ jobs:
         with:
             severity: info
             text: A new version has deployed
-            description: to this here url https://pokedex-ci-cd-7ipc.onrender.com by ${{ github.event.commits.*.author.name }}
+            # description: to this here url https://pokedex-ci-cd-7ipc.onrender.com by ${{ github.event.commits.*.author.name }}
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Discord Webhook Notify Error
         uses: rjstone/discord-webhook-notify@v1.0.4
