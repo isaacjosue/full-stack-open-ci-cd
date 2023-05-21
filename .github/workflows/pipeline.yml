@@ -36,6 +36,22 @@ jobs:
         with:
           service-id: ${{ secrets.RENDER_SERVICE_ID }}
           api-key: ${{ secrets.RENDER_API_KEY }}
+      - name: Discord Webhook Notify Info
+        uses: rjstone/discord-webhook-notify@v1.0.4
+        if: success()
+        with:
+            severity: info
+            text: A new version has deployed
+            description: to this here url https://pokedex-ci-cd-7ipc.onrender.com by ${{ github.event.commits.*.author.name }}
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Discord Webhook Notify Error
+        uses: rjstone/discord-webhook-notify@v1.0.4
+        if: failure()
+        with:
+            severity: error
+            text: Build failed
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
